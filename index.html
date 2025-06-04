@@ -2,11 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Colorea tu Pony</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Colorea ponis gratis en línea – Juega y aprende</title>
+    <meta name="description" content="Diviértete coloreando ponis y aprende los colores en línea. Dibujos SVG para colorear, actividades educativas y juegos infantiles.">
+    <meta property="og:title" content="Coloreame – Colorea ponis en línea">
+    <meta property="og:description" content="Sitio infantil para pintar dibujos SVG y actividades educativas.">
+    <meta property="og:image" content="https://tu-dominio.com/assets/images/preview.png">
+    <meta property="og:url" content="https://tu-dominio.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-    <h1>🦄 Colorea tu Pony</h1>
+    <header>
+        <h1>🦄 Coloreame</h1>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="colores.html">Colores</a>
+            <a href="juegos-logicos.html">Juegos lógicos</a>
+            <a href="categorias.html">Categorías</a>
+        </nav>
+    </header>
+
+    <div id="ads-top" class="adsense">
+        <!--
+        <script data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                data-ad-slot="1234567890"></script>
+        -->
+    </div>
+
     <div class="palette">
         <button class="color" style="background: red;" data-color="red"></button>
         <button class="color" style="background: blue;" data-color="blue"></button>
@@ -26,7 +48,17 @@
     <div id="drawing-container" class="drawing"></div>
     <button onclick="clearColors()">Limpiar</button>
     <button onclick="saveDrawing()">Guardar como imagen</button>
+
+    <div id="ads-bottom" class="adsense">
+        <!--
+        <script data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                data-ad-slot="0987654321"></script>
+        -->
+    </div>
+
+    <button id="share-btn">Compartir este dibujo</button>
+
     <script src="libs/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>

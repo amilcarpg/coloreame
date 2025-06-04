@@ -3,6 +3,17 @@ body {
     text-align: center;
     background: #fff0f5;
 }
+header nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+}
+.adsense {
+    margin: 20px auto;
+}
+#share-btn {
+    margin-top: 10px;
+}
 .palette {
     margin: 10px;
 }
