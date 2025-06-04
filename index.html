@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Colorea tu Pony</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>🦄 Colorea tu Pony</h1>
+    <div class="palette">
+        <button class="color" style="background: red;" data-color="red"></button>
+        <button class="color" style="background: blue;" data-color="blue"></button>
+        <button class="color" style="background: yellow;" data-color="yellow"></button>
+        <button class="color" style="background: green;" data-color="green"></button>
+        <button class="color" style="background: pink;" data-color="pink"></button>
+        <button class="color" style="background: purple;" data-color="purple"></button>
+        <button class="color" style="background: white; border: 1px solid #ccc;" data-color="white">🧽</button>
+    </div>
+    <div>
+        <label for="image-selector">Elige un dibujo:</label>
+        <select id="image-selector">
+            <option value="pony1.svg">Pony 1</option>
+            <option value="pony2.svg">Pony 2</option>
+        </select>
+    </div>
+    <div id="drawing-container" class="drawing"></div>
+    <button onclick="clearColors()">Limpiar</button>
+    <button onclick="saveDrawing()">Guardar como imagen</button>
+    <script src="libs/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
