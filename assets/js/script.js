@@ -38,3 +38,27 @@ function saveDrawing() {
     });
 }
 document.getElementById('image-selector').dispatchEvent(new Event('change'));
+
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (isMobile()) {
+    document.querySelectorAll('.adsense').forEach((ad) => ad.remove());
+  }
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      const url = window.location.href;
+      const text = '¡Mira mi pony pintado en Coloreame!';
+      const waUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+      const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}&hashtag=%23ColoreameWeb`;
+      window.open(waUrl, '_blank');
+      window.open(fbUrl, '_blank');
+    });
+  }
+});
+
