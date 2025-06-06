@@ -1,0 +1,32 @@
+.ad-container {
+    min-height: 90px;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#ad-top, #ad-bottom {
+    width: 100%;
+    margin: 20px 0;
+}
+
+#ad-left, #ad-right {
+    position: fixed;
+    width: 160px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f9f9f9;
+}
+
+#ad-left {
+    left: 10px;
+}
+
+#ad-right {
+    right: 10px;
+}

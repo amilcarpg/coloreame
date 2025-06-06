@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-2193465688766661">
+    <title>Colorear Online - Dibujos para Colorear</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/ads.css">
+    <link rel="stylesheet" href="styles/colorPalette.css">
+</head>
+<body>
+    <div class="ad-container" id="ad-top"><!-- Ad code --></div>
+    <div class="ad-container" id="ad-left"><!-- Ad code --></div>
+
+    <div class="container">
+        <h1>🎨 Colorear Online</h1>
+        
+        <div class="mobile-notice">
+            ¡Juega mejor en tu tablet o celular! Descarga nuestra app gratis
+        </div>
+
+        <div class="color-palette">
+            <div class="color-indicator">
+                <span>Color seleccionado:</span>
+                <div id="selected-color-square"></div>
+            </div>
+            <!-- Botones de colores -->
+        </div>
+
+        <div>
+            <label for="image-selector">Elige un dibujo:</label>
+            <select id="image-selector">
+                <option value="pony1.svg">Pony 1</option>
+                <option value="pony2.svg">Pony 2</option>
+            </select>
+        </div>
+
+        <div id="drawing-container" class="drawing"></div>
+        
+        <button onclick="clearColors()">Limpiar</button>
+        <button onclick="saveDrawing()">Guardar como imagen</button>
+    </div>
+
+    <div class="ad-container" id="ad-right"><!-- Ad code --></div>
+    <div class="ad-container" id="ad-bottom"><!-- Ad code --></div>
+
+    <script src="libs/html2canvas.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
