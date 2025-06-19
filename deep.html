@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorear Animales por Sectores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6bbd6e 0%, #4CAF50 100%);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-bottom: 4px solid #388E3C;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .slogan {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background-color: #388E3C;
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 0.8rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        nav ul li a:hover {
+            background-color: #2E7D32;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2E7D32;
+            font-size: 2.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0 1rem;
+        }
+        
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A, #4CAF50);
+            border-radius: 2px;
+        }
+        
+        .drawing-area {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .drawing-container {
+            display: inline-block;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 0 0 1px #ddd;
+        }
+        
+        #drawing-canvas {
+            background-color: white;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .tools {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            align-items: center;
+        }
+        
+        .tool-btn {
+            background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+            color: #555;
+            border: 1px solid #ccc;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .tool-btn:hover {
+            background: linear-gradient(to bottom, #e0e0e0, #d0d0d0);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        .color-option.selected {
+            transform: scale(1.3);
+            box-shadow: 0 0 0 3px white, 0 0 0 5px #4CAF50;
+        }
+        
+        .animal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .animal-thumbnail {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .animal-thumbnail:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .animal-thumbnail img {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            display: block;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .animal-name {
+            padding: 1rem;
+            font-weight: bold;
+            color: #2E7D32;
+            background-color: white;
+        }
+        
+        .animal-thumbnail::after {
+            content: "COLOREAR";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .animal-thumbnail:hover::after {
+            opacity: 1;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #333 0%, #222 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            gap: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: #a5d6a7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        
+        .close-modal:hover {
+            color: #333;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .modal-btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .modal-btn-primary {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn-primary:hover {
+            background-color: #388E3C;
+        }
+        
+        .modal-btn-secondary {
+            background-color: #f5f5f5;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+        
+        .modal-btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .spinner {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .slogan {
+                font-size: 1rem;
+            }
+            
+            nav ul li {
+                margin: 0.3rem;
+            }
+            
+            nav ul li a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            #drawing-canvas {
+                width: 100%;
+                height: auto;
+            }
+            
+            .animal-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .animal-thumbnail img {
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools {
+                flex-direction: column;
+            }
+            
+            .animal-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Colorear Animales</div>
+        <div class="slogan">¡Pinta por sectores con un clic!</div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#" class="active">Animales</a></li>
+            <li><a href="#">Dibujos Animados</a></li>
+            <li><a href="#">Naturaleza</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1 class="page-title">Colorea este animal</h1>
+        
+        <div class="drawing-area">
+            <div class="drawing-container">
+                <div class="spinner" id="spinner"></div>
+                <canvas id="drawing-canvas" width="600" height="500"></canvas>
+            </div>
+            
+            <div class="tools">
+                <button class="tool-btn" id="clear">Limpiar todo</button>
+                <button class="tool-btn" id="save">Guardar</button>
+                <button class="tool-btn" id="print">Imprimir</button>
+            </div>
+            
+            <div class="color-palette" id="color-palette">
+                <!-- Colores tipo acuarela -->
+                <div class="color-option selected" style="background-color: #FF5252;" data-color="#FF5252" title="Rojo"></div>
+                <div class="color-option" style="background-color: #FF4081;" data-color="#FF4081" title="Rosa"></div>
+                <div class="color-option" style="background-color: #E040FB;" data-color="#E040FB" title="Morado"></div>
+                <div class="color-option" style="background-color: #7C4DFF;" data-color="#7C4DFF" title="Violeta"></div>
+                <div class="color-option" style="background-color: #536DFE;" data-color="#536DFE" title="Azul"></div>
+                <div class="color-option" style="background-color: #448AFF;" data-color="#448AFF" title="Azul claro"></div>
+                <div class="color-option" style="background-color: #40C4FF;" data-color="#40C4FF" title="Celeste"></div>
+                <div class="color-option" style="background-color: #18FFFF;" data-color="#18FFFF" title="Turquesa"></div>
+                <div class="color-option" style="background-color: #64FFDA;" data-color="#64FFDA" title="Verde agua"></div>
+                <div class="color-option" style="background-color: #69F0AE;" data-color="#69F0AE" title="Verde menta"></div>
+                <div class="color-option" style="background-color: #B2FF59;" data-color="#B2FF59" title="Verde lima"></div>
+                <div class="color-option" style="background-color: #EEFF41;" data-color="#EEFF41" title="Amarillo limón"></div>
+                <div class="color-option" style="background-color: #FFFF00;" data-color="#FFFF00" title="Amarillo"></div>
+                <div class="color-option" style="background-color: #FFD740;" data-color="#FFD740" title="Amarillo oro"></div>
+                <div class="color-option" style="background-color: #FFAB40;" data-color="#FFAB40" title="Naranja"></div>
+                <div class="color-option" style="background-color: #FF6E40;" data-color="#FF6E40" title="Naranja oscuro"></div>
+                <div class="color-option" style="background-color: #5D4037;" data-color="#5D4037" title="Marrón"></div>
+                <div class="color-option" style="background-color: #795548;" data-color="#795548" title="Marrón claro"></div>
+                <div class="color-option" style="background-color: #9E9E9E;" data-color="#9E9E9E" title="Gris"></div>
+                <div class="color-option" style="background-color: #000000;" data-color="#000000" title="Negro"></div>
+                <div class="color-option" style="background-color: #FFFFFF; border: 1px solid #ddd;" data-color="#FFFFFF" title="Blanco (borrar)"></div>
+            </div>
+        </div>
+        
+        <h2>Más animales para colorear</h2>
+        <div class="animal-gallery">
+            <div class="animal-thumbnail" data-image="lion.png" data-name="León">
+                <img src="https://cdn.colorear-online.com/animales/lion-outline.png" alt="León">
+                <div class="animal-name">León</div>
+            </div>
+            <div class="animal-thumbnail" data-image="elephant.png" data-name="Elefante">
+                <img src="https://cdn.colorear-online.com/animales/elephant-outline.png" alt="Elefante">
+                <div class="animal-name">Elefante</div>
+            </div>
+            <div class="animal-thumbnail" data-image="giraffe.png" data-name="Jirafa">
+                <img src="https://cdn.colorear-online.com/animales/giraffe-outline.png" alt="Jirafa">
+                <div class="animal-name">Jirafa</div>
+            </div>
+            <div class="animal-thumbnail" data-image="tiger.png" data-name="Tigre">
+                <img src="https://cdn.colorear-online.com/animales/tiger-outline.png" alt="Tigre">
+                <div class="animal-name">Tigre</div>
+            </div>
+            <div class="animal-thumbnail" data-image="monkey.png" data-name="Mono">
+                <img src="https://cdn.colorear-online.com/animales/monkey-outline.png" alt="Mono">
+                <div class="animal-name">Mono</div>
+            </div>
+            <div class="animal-thumbnail" data-image="zebra.png" data-name="Cebra">
+                <img src="https://cdn.colorear-online.com/animales/zebra-outline.png" alt="Cebra">
+                <div class="animal-name">Cebra</div>
+            </div>
+            <div class="animal-thumbnail" data-image="bear.png" data-name="Oso">
+                <img src="https://cdn.colorear-online.com/animales/bear-outline.png" alt="Oso">
+                <div class="animal-name">Oso</div>
+            </div>
+            <div class="animal-thumbnail" data-image="hippo.png" data-name="Hipopótamo">
+                <img src="https://cdn.colorear-online.com/animales/hippo-outline.png" alt="Hipopótamo">
+                <div class="animal-name">Hipopótamo</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Términos de uso</a>
+                <a href="#">Política de privacidad</a>
+                <a href="#">Contacto</a>
+            </div>
+            <p class="copyright">&copy; 2023 Colorear Animales Online - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- Modal para guardar -->
+    <div class="modal" id="save-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>¡Tu dibujo está listo!</h2>
+            <p>¿Qué te gustaría hacer con tu creación?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-primary" id="download-btn">Descargar</button>
+                <button class="modal-btn modal-btn-secondary" id="print-btn">Imprimir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const canvas = document.getElementById('drawing-canvas');
+            const ctx = canvas.getContext('2d');
+            const clearBtn = document.getElementById('clear');
+            const saveBtn = document.getElementById('save');
+            const printBtn = document.getElementById('print');
+            const colorOptions = document.querySelectorAll('.color-option');
+            const saveModal = document.getElementById('save-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const downloadBtn = document.getElementById('download-btn');
+            const modalPrintBtn = document.getElementById('print-btn');
+            const animalThumbnails = document.querySelectorAll('.animal-thumbnail');
+            const pageTitle = document.querySelector('.page-title');
+            const spinner = document.getElementById('spinner');
+            
+            // Variables de estado
+            let currentColor = '#FF5252';
+            let currentAnimal = {
+                name: 'Hipopótamo',
+                image: 'hippo.png'
+            };
+            
+            // Cargar imagen inicial
+            const animalImage = new Image();
+            animalImage.crossOrigin = "Anonymous";
+            animalImage.src = 'https://cdn.colorear-online.com/animales/' + currentAnimal.image;
+            
+            // Mostrar spinner mientras carga
+            spinner.style.display = 'block';
+            
+            // Objeto para almacenar los colores de cada área
+            let coloredAreas = {};
+            
+            animalImage.onload = function() {
+                drawOutline();
+                spinner.style.display = 'none';
+                
+                // Inicializar áreas coloreables (esto sería dinámico en una implementación real)
+                initializeColorableAreas();
+            };
+            
+            animalImage.onerror = function() {
+                spinner.style.display = 'none';
+                alert('Error al cargar la imagen. Por favor intenta nuevamente.');
+            };
+            
+            // Funciones de dibujo
+            function drawOutline() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(animalImage, 0, 0, canvas.width, canvas.height);
+            }
+            
+            // Función para simular áreas coloreables (en una implementación real usarías un mapa de píxeles)
+            function initializeColorableAreas() {
+                // Esto es un ejemplo simplificado
+                // En una implementación real tendrías un mapa de áreas definidas
+                
+                // Simulamos 5 áreas coloreables para el hipopótamo
+                coloredAreas = {
+                    area1: { color: null, path: createAreaPath(100, 100, 200, 150) }, // Cabeza
+                    area2: { color: null, path: createAreaPath(150, 180, 250, 250) }, // Cuerpo
+                    area3: { color: null, path: createAreaPath(80, 200, 140, 300) },  // Pierna delantera
+                    area4: { color: null, path: createAreaPath(260, 200, 320, 300) }, // Pierna trasera
+                    area5: { color: null, path: createAreaPath(50, 120, 90, 160) }    // Oreja
+                };
+            }
+            
+            // Función auxiliar para crear áreas (simplificado)
+            function createAreaPath(x1, y1, x2, y2) {
+                const path = new Path2D();
+                path.rect(x1, y1, x2-x1, y2-y1);
+                return path;
+            }
+            
+            // Función para verificar en qué área se hizo clic
+            function getAreaAtPosition(x, y) {
+                for (const area in coloredAreas) {
+                    if (ctx.isPointInPath(coloredAreas[area].path, x, y)) {
+                        return area;
+                    }
+                }
+                return null;
+            }
+            
+            // Función para colorear un área
+            function colorArea(area, color) {
+                coloredAreas[area].color = color;
+                redrawCanvas();
+            }
+            
+            // Función para redibujar todo el canvas
+            function redrawCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // 1. Dibujar las áreas coloreadas
+                for (const area in coloredAreas) {
+                    if (coloredAreas[area].color) {
+                        ctx.fillStyle = coloredAreas[area].color;
+                        ctx.fill(coloredAreas[area].path);
+                    }
+                }
+                
+                // 2. Dibujar el contorno del animal sobre las áreas coloreadas
+                ctx.drawImage(animalImage, 0, 0, canvas.width, canvas.height);
+            }
+            
+            // Event listener para el canvas - ahora pinta áreas completas
+            canvas.addEventListener('click', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const area = getAreaAtPosition(x, y);
+                if (area) {
+                    colorArea(area, currentColor);
+                }
+            });
+            
+            // Event listeners para la paleta de colores
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remover clase selected de todos
+                    colorOptions.forEach(opt => opt.classList.remove('selected'));
+                    // Añadir clase selected al clickeado
+                    this.classList.add('selected');
+                    // Establecer color actual
+                    currentColor = this.getAttribute('data-color');
+                });
+            });
+            
+            clearBtn.addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que quieres limpiar todo el dibujo?')) {
+                    for (const area in coloredAreas) {
+                        coloredAreas[area].color = null;
+                    }
+                    redrawCanvas();
+                }
+            });
+            
+            // Event listeners para el modal
+            saveBtn.addEventListener('click', function() {
+                saveModal.style.display = 'flex';
+            });
+            
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+            
+            closeModal.addEventListener('click', function() {
+                saveModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === saveModal) {
+                    saveModal.style.display = 'none';
+                }
+            });
+            
+            downloadBtn.addEventListener('click', function() {
+                const link = document.createElement('a');
+                link.download = `animal-coloreado-${currentAnimal.name.toLowerCase()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                saveModal.style.display = 'none';
+            });
+            
+            modalPrintBtn.addEventListener('click', function() {
+                window.print();
+                saveModal.style.display = 'none';
+            });
+            
+            // Event listeners para la galería de animales
+            animalThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    const animalName = this.getAttribute('data-name');
+                    
+                    // Mostrar spinner mientras carga
+                    spinner.style.display = 'block';
+                    
+                    // Crear nueva imagen
+                    const newImage = new Image();
+                    newImage.crossOrigin = "Anonymous";
+                    newImage.src = `https://cdn.colorear-online.com/animales/${imageUrl}`;
+                    
+                    newImage.onload = function() {
+                        // Actualizar el animal actual
+                        currentAnimal = {
+                            name: animalName,
+                            image: imageUrl
+                        };
+                        
+                        // Actualizar el título de la página
+                        pageTitle.textContent = `Colorea este ${animalName.toLowerCase()}`;
+                        
+                        // Cambiar la imagen
+                        animalImage.src = newImage.src;
+                        
+                        // Reiniciar áreas coloreables
+                        initializeColorableAreas();
+                        drawOutline();
+                        
+                        // Ocultar spinner
+                        spinner.style.display = 'none';
+                        
+                        // Desplazar hacia arriba para ver el nuevo dibujo
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    };
+                    
+                    newImage.onerror = function() {
+                        spinner.style.display = 'none';
+                        alert('Error al cargar la imagen. Por favor intenta nuevamente.');
+                    };
+                });
+            });
+            
+            // Redimensionar canvas al cambiar tamaño de ventana
+            function resizeCanvas() {
+                const container = canvas.parentElement;
+                const ratio = canvas.width / canvas.height;
+                const newWidth = Math.min(container.offsetWidth, 600);
+                const newHeight = newWidth / ratio;
+                
+                canvas.style.width = newWidth + 'px';
+                canvas.style.height = newHeight + 'px';
+            }
+            
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+        });
+    </script>
+</body>
+</html>

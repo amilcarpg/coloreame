@@ -1,39 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="google-adsense-account" content="ca-pub-2193465688766661">
-    <title>Colorea tu Pony</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorear Animales - HTML1</title>
+    <link rel="stylesheet" href="styles/main-html1.css">
 </head>
-
 <body>
-    <h1>🦄 Colorea tu Pony</h1>
-    <div class="palette">
-        <button class="color" style="background: red;" data-color="red"></button>
-        <button class="color" style="background: blue;" data-color="blue"></button>
-        <button class="color" style="background: yellow;" data-color="yellow"></button>
-        <button class="color" style="background: green;" data-color="green"></button>
-        <button class="color" style="background: pink;" data-color="pink"></button>
-        <button class="color" style="background: purple;" data-color="purple"></button>
-        <button class="color" style="background: orange;" data-color="orange"></button>
-        <button class="color" style="background: brown;" data-color="brown"></button>
-        <button class="color" style="background: black;" data-color="black"></button>
-        <button class="color" style="background: white; border: 1px solid #ccc;" data-color="white">🧽</button>
+    <header>
+        <div class="logo">Colorear Animales</div>
+        <div class="slogan">¡Pinta por sectores con un clic!</div>
+    </header>
+    <div class="container">
+        <h1 class="page-title">Colorea tu dibujo</h1>
+        <div class="drawing-area">
+            <select id="image-selector">
+                <option value="pony1.svg">Pony 1</option>
+                <option value="pony2.svg">Pony 2</option>
+            </select>
+            <div class="color-palette">
+                <button class="color-button selected" style="background: red;" data-color="red"></button>
+                <button class="color-button" style="background: blue;" data-color="blue"></button>
+                <button class="color-button" style="background: yellow;" data-color="yellow"></button>
+                <button class="color-button" style="background: green;" data-color="green"></button>
+                <button class="color-button" style="background: pink;" data-color="pink"></button>
+                <button class="color-button" style="background: purple;" data-color="purple"></button>
+                <button class="color-button" style="background: orange;" data-color="orange"></button>
+                <button class="color-button" style="background: brown;" data-color="brown"></button>
+                <button class="color-button" style="background: black;" data-color="black"></button>
+                <button class="color-button" style="background: navy;" data-color="navy"></button>
+                <button class="color-button" style="background: teal;" data-color="teal"></button>
+                <button class="color-button" style="background: maroon;" data-color="maroon"></button>
+                <button class="color-button" style="background: lime;" data-color="lime"></button>
+                <button class="color-button" style="background: cyan;" data-color="cyan"></button>
+                <button class="color-button" style="background: magenta;" data-color="magenta"></button>
+                <button class="color-button" style="background: olive;" data-color="olive"></button>
+                <button class="color-button" style="background: gray;" data-color="gray"></button>
+                <button class="color-button" style="background: gold;" data-color="gold"></button>
+                <button class="color-button" style="background: silver;" data-color="silver"></button>
+                <button class="color-button" style="background: white; border: 1px solid #ccc;" data-color="white">🧽</button>
+            </div>
+            <div id="drawing"></div>
+            <div class="tools">
+                <button onclick="clearColors()">Limpiar</button>
+                <button onclick="saveDrawing()">Guardar como imagen</button>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="image-selector">Elige un dibujo:</label>
-        <select id="image-selector">
-            <option value="pony1.svg">Pony 1</option>
-            <option value="pony2.svg">Pony 2</option>
-        </select>
-    </div>
-    <div id="drawing-container" class="drawing"></div>
-    <button onclick="clearColors()">Limpiar</button>
-    <button onclick="saveDrawing()">Guardar como imagen</button>
     <script src="libs/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/main-html1.js"></script>
 </body>
-
 </html>
