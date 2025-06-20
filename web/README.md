@@ -13,3 +13,6 @@ Aplicación web infantil para colorear dibujos vectoriales de ponis de forma int
 - O publica vía GitHub Pages
 ## Licencia
 Uso libre para fines educativos
+
+##modelo
+https://colorear-online.com/colorear-animales/
